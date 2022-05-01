@@ -12,8 +12,7 @@ def main():
     db = client[db_name]
     collection = db['test'] #1. put the name of your collection in the quotes
     
-    post = {"author": "Mike", #2. add a document to your collection using the insert_one method
-        'name':"Jane Doe",
+    post = {'name':"Jane Doe", #2. add a document to your collection using the insert_one method
         'birthday':"12/3/1990",
         'birthplace':"test town",}
     posts = db.posts
@@ -29,6 +28,12 @@ def main():
     'name':"Jane Doe",
     'birthday':"12/3/1990",
     'birthplace':"test town",}
+    
+    pprint.pprint(posts.find_many()) #4. print the first document in the collection
+    {'_id': ObjectId(),
+    'name':"Jane Doe",
+    'birthday':"12/3/1990",
+    'birthplace':"test town",}
      
     #5. print all documents in the collection
     
@@ -38,6 +43,7 @@ def main():
     'birthday':"12/3/1990",
     'birthplace':"test town",}
     
+    # db.collection.deleteMany({'author': 'Mike'})
     
 if __name__=="__main__":
     main()
