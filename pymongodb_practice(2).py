@@ -1,7 +1,5 @@
-from bson import ObjectId
 import pymongo
 import os
-import sys
 import pprint
 
 def main():
@@ -10,40 +8,30 @@ def main():
     
     client = pymongo.MongoClient(connection_string)
     db = client[db_name]
-    collection = db['test'] #1. put the name of your collection in the quotes
+    collection = db['posts'] #1. put the name of your collection in the quotes
     
-    post = {'name':"Jane Doe", #2. add a document to your collection using the insert_one method
-        'birthday':"12/3/1990",
-        'birthplace':"test town",}
-    posts = db.posts
-    post_id = posts.insert_one(post).inserted_id
-    post_id
-    ObjectId()
+    # 2. add a document to your collection using the insert_one method
+    post = {'name':"Jane Doe", 'birthday':"12/3/1990", 'birthplace':"test town",}, {'name':"John Doe", 'birthday':"11/3/1987", 'birthplace':"test town",}, {'name':"Jarquevias Doe", 'birthday':"4/19/2009", 'birthplace':"new test town",}
+    collection.insert_many(post).inserted_ids
     
-    db.list_collection_names() #3. print the number of documents in the collection
-    ['posts']
+    #3. print the number of documents in the collection
+    count = collection.count_documents({})
+    print(count)
     
-    pprint.pprint(posts.find_one()) #4. print the first document in the collection
-    {'_id': ObjectId(),
-    'name':"Jane Doe",
-    'birthday':"12/3/1990",
-    'birthplace':"test town",}
+    # 4. print the first document in the collection
+    pprint.pprint(collection.find_one()) 
     
-    pprint.pprint(posts.find_many()) #4. print the first document in the collection
-    {'_id': ObjectId(),
-    'name':"Jane Doe",
-    'birthday':"12/3/1990",
-    'birthplace':"test town",}
-     
-    #5. print all documents in the collection
+    # 5. print all documents in the collection
+    for i in collection.find(): 
+        pprint.pprint(i)
     
-    pprint.pprint(posts.find_one({"name": "John Doe"}))#6. print all documents with a particular value for some attribute
-    {'_id': ObjectId(), #ex. print all documents with the birth date 12/1/1990
-    'name':"Jane Doe",
-    'birthday':"12/3/1990",
-    'birthplace':"test town",}
+    #6. print all documents with a particular value for some attribute
+    for i in collection.find({'birthplace':"test town"}):
+        pprint.pprint(i)
     
-    # db.collection.deleteMany({'author': 'Mike'})
+    # 7. Extension: Research another PyMongo function. This function deletes all documents with a value for some attribute
+    collection.delete_many( { 'name': 'Jane Doe'} );
+    
     
 if __name__=="__main__":
     main()
