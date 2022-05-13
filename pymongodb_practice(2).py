@@ -30,7 +30,7 @@ def main():
         pprint.pprint(i)
     
     # 7. Extension: Research another PyMongo function. This function deletes all documents with a value for some attribute
-    collection.delete_many( { 'name': 'Jane Doe'} );
+    collection.delete_many({ 'name': 'Jane Doe'});
     
     
 if __name__=="__main__":
